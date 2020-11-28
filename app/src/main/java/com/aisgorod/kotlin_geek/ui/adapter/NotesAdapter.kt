@@ -42,13 +42,17 @@ class NotesAdapter(val noteHandler: (Note) -> Unit) :
             noteHandler(currentNote)
         }
 
-        fun bind(item: Note) = with(itemView) {
+        fun bind(item: Note) {
             currentNote = item
-            title.text = item.title
-            body.text = item.plot
-            setBackgroundColor(item.color.mapToColor(context))
-            setOnClickListener(clickListener)
+            with(itemView) {
+                title.text = item.title
+                body.text = item.plot
+                setBackgroundColor(item.color.mapToColor(context))
+                setOnClickListener(clickListener)
+            }
         }
+
+
 
 
     }

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "791717500054",
+    "firebase_url": "https://kotlin-geek.firebaseio.com",
+    "project_id": "kotlin-geek",
+    "storage_bucket": "kotlin-geek.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791717500054:android:c3719990d99048a6d01eb7",
+        "android_client_info": {
+          "package_name": "com.aisgorod.kotlin_geek"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791717500054-1nhgvlpkh6ijr7og2vkq1ong2uea9nlj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEZKpyZUXtLRI3CCqL1tY2HuYgCWoq_UA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791717500054-1nhgvlpkh6ijr7og2vkq1ong2uea9nlj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

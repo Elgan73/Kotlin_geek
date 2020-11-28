@@ -4,4 +4,8 @@
     <string name="body_note">Я Kotlin бы выучил только за то, что на нем разрабатывал Вортон!</string>
     <string name="title_create_note">Заголовок</string>
     <string name="body_note_text">Текст заметки</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="add_note">Add note</string>
+    <string name="save_hint">Save note</string>
 </resources>
