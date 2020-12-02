@@ -6,5 +6,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="AppSaveNote" parent="Widget.AppCompat.ActionButton">
+        <item name="icon">@drawable/ic_outline_save_24</item>
+        <item name="queryHint">@string/save_hint</item>
+        <item name="android:imeActionId">6</item>
+    </style>
 
+
+    <style name="PrimaryActionButton" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
 </resources>

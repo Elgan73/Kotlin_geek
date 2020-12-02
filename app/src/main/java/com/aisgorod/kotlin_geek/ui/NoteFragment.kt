@@ -1,16 +1,18 @@
 package com.aisgorod.kotlin_geek.ui
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.view.View
+import android.view.*
+import android.widget.Toast
+import androidx.annotation.DrawableRes
+import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.aisgorod.kotlin_geek.R
 import com.aisgorod.kotlin_geek.data.Note
-import com.aisgorod.kotlin_geek.data.NoteViewModel
+import com.aisgorod.kotlin_geek.presentation.NoteViewModel
 import kotlinx.android.synthetic.main.fragment_note.*
 
 class NoteFragment : Fragment(R.layout.fragment_note) {
@@ -30,6 +32,19 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        (requireActivity() as? MainActivity)?.setSupportActionBar(toolbar)
+
+        setHasOptionsMenu(true)
+
+        viewModel.note?.let {
+            titleEt.setText(it.title)
+            bodyEt.setText(it.plot)
+        }
+
+        viewModel.showError().observe(viewLifecycleOwner) {
+            Toast.makeText(requireContext(), "Error while save note!", Toast.LENGTH_LONG).show()
+        }
+
         toolbar.title = viewModel.note?.title ?: getString(R.string.title_create_note)
 
         titleEt.addTextChangedListener {
@@ -42,6 +57,23 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
         toolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.toolbar_menu_item, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.saveNoteBtn -> {
+                viewModel.saveNote()
+            }
+            R.id.deleteNote -> {
+                viewModel.deleteNote()
+            }
+        }
+        return true
     }
 
     companion object {

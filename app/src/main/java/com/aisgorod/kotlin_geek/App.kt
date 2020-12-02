@@ -9,12 +9,7 @@ class App: Application() {
 
     companion object {
         @SuppressLint("StaticFieldLeak")
-        var context: Context? = null
         var fragmentRouter = Router()
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        context = applicationContext
-    }
 }

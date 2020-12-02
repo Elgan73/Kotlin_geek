@@ -33,10 +33,10 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        app:srcCompat="@android:drawable/ic_input_add"
-        tools:src="@android:drawable/ic_input_add"
+        app:srcCompat="@drawable/ic_baseline_add_24"
         android:layout_gravity="bottom|end"
+        android:contentDescription="@string/add_note"
+        android:theme="@style/PrimaryActionButton"
         />
 
 
