@@ -37,6 +37,8 @@
         android:layout_gravity="bottom|end"
         android:contentDescription="@string/add_note"
         android:theme="@style/PrimaryActionButton"
+        android:layout_marginBottom="15dp"
+        android:layout_marginEnd="15dp"
         />
 
 

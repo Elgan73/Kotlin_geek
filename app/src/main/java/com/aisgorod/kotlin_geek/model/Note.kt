@@ -1,13 +1,12 @@
-package com.aisgorod.kotlin_geek.data
+package com.aisgorod.kotlin_geek.model
 
 import android.content.Context
 import android.os.Parcelable
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import com.aisgorod.kotlin_geek.R
+import com.aisgorod.kotlin_geek.data.noteId
 import kotlinx.android.parcel.Parcelize
-import java.security.AccessControlContext
-import kotlin.random.Random
 
 
 @Parcelize
