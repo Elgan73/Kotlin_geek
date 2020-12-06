@@ -1,16 +1,17 @@
 package com.aisgorod.kotlin_geek.data
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.aisgorod.kotlin_geek.data.db.DatabaseProvider
 import com.aisgorod.kotlin_geek.data.db.FireStoreDatabaseProvider
+import com.aisgorod.kotlin_geek.model.Note
 import kotlin.random.Random
 
 val idRandom = Random(0)
 val noteId: Long
     get() = idRandom.nextLong()
 
-class NotesRepositoryImpl(val provider: FireStoreDatabaseProvider) : NotesRepository {
+class NotesRepositoryImpl(private val provider: FireStoreDatabaseProvider) : NotesRepository {
+
+    override fun getCurrentUser() = provider.getCurrentUser()
 
     override fun observeNotes(): LiveData<List<Note>> {
         return provider.observeNotes()

@@ -1,17 +1,14 @@
 package com.aisgorod.kotlin_geek.ui
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.annotation.DrawableRes
-import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.aisgorod.kotlin_geek.R
-import com.aisgorod.kotlin_geek.data.Note
+import com.aisgorod.kotlin_geek.model.Note
 import com.aisgorod.kotlin_geek.presentation.NoteViewModel
 import kotlinx.android.synthetic.main.fragment_note.*
 
@@ -68,9 +65,11 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
         when (item.itemId) {
             R.id.saveNoteBtn -> {
                 viewModel.saveNote()
+                activity?.onBackPressed()
             }
             R.id.deleteNote -> {
                 viewModel.deleteNote()
+                activity?.onBackPressed()
             }
         }
         return true
