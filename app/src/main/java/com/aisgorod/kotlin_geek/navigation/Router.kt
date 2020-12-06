@@ -2,6 +2,7 @@ package com.aisgorod.kotlin_geek.navigation
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.commit
 import com.aisgorod.kotlin_geek.R
 
 class Router {
@@ -13,12 +14,11 @@ class Router {
         this.containerId = containerId
     }
 
-
     fun navigateTo(fragment: Fragment) {
-        fragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_view, fragment)
-            .addToBackStack("FRAGMENT")
-            .commit()
+        fragmentManager.commit {
+            replace(R.id.fragment_container_view, fragment)
+            addToBackStack("FRAGMENT")
+        }
     }
 }
 

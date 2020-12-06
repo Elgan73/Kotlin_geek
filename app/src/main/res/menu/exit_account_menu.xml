@@ -4,7 +4,7 @@
     <item
         android:id="@+id/exitFrAccBtn"
         android:title="@string/exit"
-        android:icon="@drawable/ic_outline_exit_firebase_24"
+        android:icon="@drawable/ic_exit_icon_24"
         app:showAsAction="always"
         />
 </menu>

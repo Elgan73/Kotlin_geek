@@ -14,7 +14,7 @@ data class Note(
     val id: Long = noteId,
     val title: String = "",
     val plot: String = "",
-    val color: Color = Color.values().random(),
+    var color: Int = 0,
 ) : Parcelable
 
 
