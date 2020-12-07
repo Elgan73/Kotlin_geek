@@ -20,6 +20,10 @@ class NoteViewModel(private val notesRepository: NotesRepository, var note: Note
         note = (note ?: generateNote()).copy(title = text)
     }
 
+    fun updateColor(color: Int) {
+        note = (note ?: generateNote()).copy(_color = color)
+    }
+
 
     fun saveNote() {
         note?.let {note ->
