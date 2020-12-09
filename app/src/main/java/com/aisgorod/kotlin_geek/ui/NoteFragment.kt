@@ -3,55 +3,68 @@ package com.aisgorod.kotlin_geek.ui
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.aisgorod.kotlin_geek.R
+import com.aisgorod.kotlin_geek.databinding.FragmentNoteBinding
+import com.aisgorod.kotlin_geek.model.Color
 import com.aisgorod.kotlin_geek.model.Note
 import com.aisgorod.kotlin_geek.presentation.NoteViewModel
-import kotlinx.android.synthetic.main.fragment_note.*
+import org.jetbrains.anko.colorAttr
+import org.koin.android.ext.android.bind
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
+import petrov.kristiyan.colorpicker.ColorPicker
 
-class NoteFragment : Fragment(R.layout.fragment_note) {
+class NoteFragment : Fragment() {
 
     private val note: Note? by lazy(LazyThreadSafetyMode.NONE) { arguments?.getParcelable(NOTE_KEY) }
 
-    private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
-        ViewModelProvider(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return NoteViewModel(note) as T
-            }
-        }).get(
-            NoteViewModel::class.java
-        )
+    private val viewModel by viewModel<NoteViewModel> {
+        parametersOf(note)
+    }
+
+    private var _binding: FragmentNoteBinding? = null
+    private val binding: FragmentNoteBinding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        _binding = FragmentNoteBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireActivity() as? MainActivity)?.setSupportActionBar(toolbar)
+        (requireActivity() as? MainActivity)?.setSupportActionBar(binding.toolbar)
 
         setHasOptionsMenu(true)
 
         viewModel.note?.let {
-            titleEt.setText(it.title)
-            bodyEt.setText(it.plot)
+            binding.titleEt.setText(it.title)
+            binding.bodyEt.setText(it.plot)
         }
 
         viewModel.showError().observe(viewLifecycleOwner) {
             Toast.makeText(requireContext(), "Error while save note!", Toast.LENGTH_LONG).show()
         }
 
-        toolbar.title = viewModel.note?.title ?: getString(R.string.title_create_note)
+        binding.toolbar.title = viewModel.note?.title ?: getString(R.string.title_create_note)
 
-        titleEt.addTextChangedListener {
+        binding.titleEt.addTextChangedListener {
             viewModel.updateTitle(it?.toString() ?: "")
         }
-        bodyEt.addTextChangedListener {
+        binding.bodyEt.addTextChangedListener {
             viewModel.updateNote(it?.toString() ?: "")
         }
 
-        toolbar.setNavigationOnClickListener {
+        binding.toolbar.setNavigationOnClickListener {
             activity?.onBackPressed()
         }
     }
@@ -67,12 +80,36 @@ class NoteFragment : Fragment(R.layout.fragment_note) {
                 viewModel.saveNote()
                 activity?.onBackPressed()
             }
-            R.id.deleteNote -> {
+            R.id.deleteNoteBtn -> {
                 viewModel.deleteNote()
                 activity?.onBackPressed()
             }
+            R.id.paletteBtn -> {
+                openColorPicker()
+            }
         }
         return true
+    }
+
+    private fun openColorPicker() {
+        val colP = ColorPicker(activity)
+        colP.show()
+        colP.setOnChooseColorListener(object : ColorPicker.OnChooseColorListener {
+            override fun onChooseColor(position: Int, color: Int) {
+                binding.toolbar.setBackgroundColor(color)
+                note?._color = color
+            }
+
+            override fun onCancel() {
+            }
+
+        })
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

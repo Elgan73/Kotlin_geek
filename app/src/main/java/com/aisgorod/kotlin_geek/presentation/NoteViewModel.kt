@@ -1,10 +1,10 @@
 package com.aisgorod.kotlin_geek.presentation
 
 import androidx.lifecycle.*
+import com.aisgorod.kotlin_geek.data.NotesRepository
 import com.aisgorod.kotlin_geek.model.Note
-import com.aisgorod.kotlin_geek.data.notesRepository
 
-class NoteViewModel(var note: Note?) : ViewModel() {
+class NoteViewModel(private val notesRepository: NotesRepository, var note: Note?) : ViewModel() {
     private val showErrorLiveData = MutableLiveData<Boolean>()
 
     private val lifecycleOwner: LifecycleOwner = LifecycleOwner { viewModelLifecycle }
@@ -18,6 +18,10 @@ class NoteViewModel(var note: Note?) : ViewModel() {
 
     fun updateTitle(text: String) {
         note = (note ?: generateNote()).copy(title = text)
+    }
+
+    fun updateColor(color: Int) {
+        note = (note ?: generateNote()).copy(_color = color)
     }
 
 

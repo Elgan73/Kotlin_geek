@@ -1,6 +1,7 @@
 package com.aisgorod.kotlin_geek.data
 
 import androidx.lifecycle.LiveData
+import com.aisgorod.kotlin_geek.data.db.DatabaseProvider
 import com.aisgorod.kotlin_geek.data.db.FireStoreDatabaseProvider
 import com.aisgorod.kotlin_geek.model.Note
 import kotlin.random.Random
@@ -9,7 +10,7 @@ val idRandom = Random(0)
 val noteId: Long
     get() = idRandom.nextLong()
 
-class NotesRepositoryImpl(private val provider: FireStoreDatabaseProvider) : NotesRepository {
+class NotesRepositoryImpl(private val provider: DatabaseProvider) : NotesRepository {
 
     override fun getCurrentUser() = provider.getCurrentUser()
 
@@ -25,5 +26,3 @@ class NotesRepositoryImpl(private val provider: FireStoreDatabaseProvider) : Not
         return provider.removeNote(note)
     }
 }
-
-val notesRepository: NotesRepository by lazy { NotesRepositoryImpl(FireStoreDatabaseProvider()) }

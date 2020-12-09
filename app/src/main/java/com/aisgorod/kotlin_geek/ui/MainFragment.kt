@@ -1,48 +1,50 @@
 package com.aisgorod.kotlin_geek.ui
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.aisgorod.kotlin_geek.App
 import com.aisgorod.kotlin_geek.presentation.NotesViewModel
 import com.aisgorod.kotlin_geek.R
+import com.aisgorod.kotlin_geek.databinding.FragmentMainBinding
 import com.aisgorod.kotlin_geek.model.Note
 import com.aisgorod.kotlin_geek.presentation.LogoutDialog
 import com.aisgorod.kotlin_geek.presentation.LogoutDialog.Companion.TAG
 import com.aisgorod.kotlin_geek.presentation.ViewState
 import com.aisgorod.kotlin_geek.ui.adapter.NotesAdapter
-import com.firebase.ui.auth.AuthUI
-import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.android.synthetic.main.fragment_main.toolbar
-import kotlinx.android.synthetic.main.fragment_note.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainFragment : Fragment(R.layout.fragment_main) {
 
+    private val viewModel by viewModel<NotesViewModel>()
 
-    private val viewModel by lazy(LazyThreadSafetyMode.NONE) {
-        ViewModelProvider(this).get(
-            NotesViewModel::class.java
-        )
+    private var _binding: FragmentMainBinding? = null
+    private val binding: FragmentMainBinding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        (requireActivity() as? MainActivity)?.setSupportActionBar(toolbar)
+        (requireActivity() as? MainActivity)?.setSupportActionBar(binding.toolbar)
 
         setHasOptionsMenu(true)
 
         val adapter = NotesAdapter {
             navigateToNote(it)
         }
-        recyclerView.adapter = adapter
+        binding.recyclerView.adapter = adapter
 
         viewModel.observeViewState().observe(viewLifecycleOwner) {
             when (it) {
@@ -51,18 +53,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             }
         }
 
-        fab.setOnClickListener {
+        binding.fab.setOnClickListener {
             navigateToCreation()
         }
 
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        binding.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-                if(newState == SCROLL_STATE_IDLE) {
-                    fab.show()
+                if (newState == SCROLL_STATE_IDLE) {
+                    binding.fab.show()
                 } else {
-                    fab.hide()
+                    binding.fab.hide()
                 }
             }
         })
@@ -79,6 +81,11 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
         }
         return true
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun navigateToNote(note: Note) {

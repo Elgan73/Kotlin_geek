@@ -97,7 +97,7 @@ class FireStoreDatabaseProvider : DatabaseProvider {
                         val notes = mutableListOf<Note>()
 
                         for (doc: QueryDocumentSnapshot in snapshot) {
-                            notes.add(doc.toObject(Note::class.java))
+                              notes.add(doc.toObject(Note::class.java))
                         }
                         result.value = notes
                     }
