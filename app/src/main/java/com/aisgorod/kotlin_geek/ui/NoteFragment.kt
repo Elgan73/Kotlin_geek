@@ -3,16 +3,12 @@ package com.aisgorod.kotlin_geek.ui
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.core.view.get
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.aisgorod.kotlin_geek.R
 import com.aisgorod.kotlin_geek.databinding.FragmentNoteBinding
-import com.aisgorod.kotlin_geek.model.Color
 import com.aisgorod.kotlin_geek.model.Note
 import com.aisgorod.kotlin_geek.presentation.NoteViewModel
-import org.jetbrains.anko.colorAttr
-import org.koin.android.ext.android.bind
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import petrov.kristiyan.colorpicker.ColorPicker
@@ -78,6 +74,7 @@ class NoteFragment : Fragment() {
         when (item.itemId) {
             R.id.saveNoteBtn -> {
                 viewModel.saveNote()
+                note?.let { viewModel.updateColor(it._color) }
                 activity?.onBackPressed()
             }
             R.id.deleteNoteBtn -> {
