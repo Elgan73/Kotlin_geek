@@ -60,15 +60,15 @@ class NoteViewModelTest {
         Assert.assertTrue(viewModel.showError().value != null)
     }
 
-    @Test
-    fun `ViewModel note color changed`() {
-        val currentNote = Note(_color = 0x000)
-        viewModel = NoteViewModel(notesRepositoryMock, currentNote)
-
-        viewModel.updateColor(0x000)
-
-        Assert.assertEquals(0x000, viewModel.note?._color)
-    }
+//    @Test
+//    fun `ViewModel note color changed`() {
+//        val currentNote = Note(_color = 0x000)
+//        viewModel = NoteViewModel(notesRepositoryMock, currentNote)
+//
+//        viewModel.updateColor(0x000)
+//
+//        Assert.assertEquals(0x000, viewModel.note?._color)
+//    }
 
     @Test
     fun `NotesRepository addOrReplaceNote called with correct argument and title` () {
