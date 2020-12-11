@@ -50,14 +50,16 @@ class NotesAdapter(val noteHandler: (Note) -> Unit) :
             with(binding) {
                 title.text = item.title
                 body.text = item.plot
-                root.setBackgroundColor(item._color)
+                if(item.colorInt == 0) {
+                    root.setBackgroundColor(item.colorC.mapToColor(binding.root.context))
+                } else {
+                    root.setBackgroundColor(item.colorInt)
+                }
+
                 root.setOnClickListener(clickListener)
             }
         }
-
-
     }
-
 }
 
 

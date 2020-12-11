@@ -33,7 +33,6 @@ class FireStoreDatabaseProvider : DatabaseProvider {
     override fun getCurrentUser() = currentUser?.run { User(displayName, email) }
 
 
-
     override fun addOrReplace(newNote: Note): LiveData<Result<Note>> {
         val result = MutableLiveData<Result<Note>>()
 
@@ -59,28 +58,15 @@ class FireStoreDatabaseProvider : DatabaseProvider {
         return result
     }
 
-    override fun removeNote(note: Note) {
-
-        handleNotesReference(
-            {
-                getUserNotesCollection().document(note.id.toString())
-                    .delete()
-                    .addOnSuccessListener {
-                        Log.d(TAG, "Note $note is deleted")
-                    }
-                    .addOnFailureListener {
-                        Log.e(
-                            TAG,
-                            "Something wrong with ${note.title} delete process ",
-                            it.cause
-                        )
-                    }
-            },
-            {
-                Log.e(TAG, "Something wrong with ${note.title} delete process ", it.cause)
-            }
-        )
-    }
+    override fun deleteNote(noteId: String): LiveData<Result<Unit>> =
+        MutableLiveData<Result<Unit>>().apply {
+            getUserNotesCollection().document(noteId).delete()
+                .addOnSuccessListener {
+                    value = Result.success(Unit)
+                }.addOnFailureListener {
+                    value = Result.failure(it)
+                }
+        }
 
     private fun getUserNotesCollection() = currentUser?.let {
         db.collection(USERS_COLLECTION).document(it.uid).collection(NOTES_COLLECTION)
@@ -97,7 +83,7 @@ class FireStoreDatabaseProvider : DatabaseProvider {
                         val notes = mutableListOf<Note>()
 
                         for (doc: QueryDocumentSnapshot in snapshot) {
-                              notes.add(doc.toObject(Note::class.java))
+                            notes.add(doc.toObject(Note::class.java))
                         }
                         result.value = notes
                     }

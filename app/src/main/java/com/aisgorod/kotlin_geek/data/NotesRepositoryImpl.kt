@@ -22,7 +22,6 @@ class NotesRepositoryImpl(private val provider: DatabaseProvider) : NotesReposit
         return provider.addOrReplace(newNote)
     }
 
-    override fun deleteNote(note: Note) {
-        return provider.removeNote(note)
-    }
+    override fun deleteNote(noteId: String): LiveData<Result<Unit>> = provider.deleteNote(noteId)
+
 }

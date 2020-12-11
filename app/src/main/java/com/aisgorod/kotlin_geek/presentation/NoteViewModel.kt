@@ -21,7 +21,7 @@ class NoteViewModel(private val notesRepository: NotesRepository, var note: Note
     }
 
     fun updateColor(color: Int) {
-        note = (note ?: generateNote()).copy(_color = color)
+        note = (note ?: generateNote()).copy(colorInt = color)
     }
 
 
@@ -37,7 +37,7 @@ class NoteViewModel(private val notesRepository: NotesRepository, var note: Note
 
     fun deleteNote() {
         note?.let { note ->
-            notesRepository.deleteNote(note)
+            notesRepository.deleteNote(note.id.toString())
         }
     }
 

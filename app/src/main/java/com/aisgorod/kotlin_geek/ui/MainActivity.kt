@@ -2,12 +2,10 @@ package com.aisgorod.kotlin_geek.ui
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color.BLACK
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.aisgorod.kotlin_geek.App
 import com.aisgorod.kotlin_geek.R
-import com.aisgorod.kotlin_geek.model.Color
 import com.aisgorod.kotlin_geek.presentation.LogoutDialog
 import com.firebase.ui.auth.AuthUI
 
