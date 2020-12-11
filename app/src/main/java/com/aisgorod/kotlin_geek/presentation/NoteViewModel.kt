@@ -1,16 +1,17 @@
 package com.aisgorod.kotlin_geek.presentation
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.aisgorod.kotlin_geek.data.NotesRepository
 import com.aisgorod.kotlin_geek.model.Note
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 class NoteViewModel(private val notesRepository: NotesRepository, var note: Note?) : ViewModel() {
-    private val showErrorLiveData = MutableLiveData<Boolean>()
 
-    private val lifecycleOwner: LifecycleOwner = LifecycleOwner { viewModelLifecycle }
-    private val viewModelLifecycle = LifecycleRegistry(lifecycleOwner).also {
-        it.currentState = Lifecycle.State.RESUMED
-    }
+
+    private val showErrorLiveData = MutableLiveData<Boolean>()
 
     fun updateNote(text: String) {
         note = (note ?: generateNote()).copy(plot = text)
@@ -26,27 +27,30 @@ class NoteViewModel(private val notesRepository: NotesRepository, var note: Note
 
 
     fun saveNote() {
-        note?.let {note ->
-            notesRepository.addOrReplace(note).observe(lifecycleOwner){
-                it.onFailure {
-                    showErrorLiveData.value = true
-                }
+        viewModelScope.launch {
+            val noteValue = note ?: return@launch
+
+            try {
+                notesRepository.addOrReplace(noteValue)
+            } catch (th: Throwable) {
+                showErrorLiveData.value = true
             }
         }
     }
 
     fun deleteNote() {
-        note?.let { note ->
-            notesRepository.deleteNote(note.id.toString())
+        viewModelScope.launch {
+            val noteValue = note ?: return@launch
+
+            try {
+                notesRepository.deleteNote(noteValue.id.toString())
+            } catch (th: Throwable) {
+                Log.d("ExceptionCoroutine", "Error delete note" )
+            }
         }
     }
 
     fun showError(): LiveData<Boolean> = showErrorLiveData
-
-    override fun onCleared() {
-        super.onCleared()
-        viewModelLifecycle.currentState = Lifecycle.State.DESTROYED
-    }
 
     private fun generateNote() : Note {
         return Note()
