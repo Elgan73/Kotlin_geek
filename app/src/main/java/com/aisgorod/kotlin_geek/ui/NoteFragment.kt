@@ -1,19 +1,14 @@
 package com.aisgorod.kotlin_geek.ui
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
-import androidx.compose.ui.graphics.Color
-import androidx.core.view.get
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import com.aisgorod.kotlin_geek.R
 import com.aisgorod.kotlin_geek.databinding.FragmentNoteBinding
 import com.aisgorod.kotlin_geek.model.Note
 import com.aisgorod.kotlin_geek.presentation.NoteViewModel
-import kotlinx.android.synthetic.main.fragment_note.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import petrov.kristiyan.colorpicker.ColorPicker
@@ -99,7 +94,6 @@ class NoteFragment : Fragment() {
         colP.setOnChooseColorListener(object : ColorPicker.OnChooseColorListener {
             override fun onChooseColor(position: Int, color: Int) {
                 binding.toolbar.setBackgroundColor(color)
-                Log.d("TAG!!!!!!", "This color ${note?.colorInt}")
                 viewModel.updateColor(color)
             }
 

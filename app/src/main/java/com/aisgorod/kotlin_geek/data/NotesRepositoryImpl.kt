@@ -2,8 +2,10 @@ package com.aisgorod.kotlin_geek.data
 
 import androidx.lifecycle.LiveData
 import com.aisgorod.kotlin_geek.data.db.DatabaseProvider
-import com.aisgorod.kotlin_geek.data.db.FireStoreDatabaseProvider
 import com.aisgorod.kotlin_geek.model.Note
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 val idRandom = Random(0)
@@ -12,16 +14,20 @@ val noteId: Long
 
 class NotesRepositoryImpl(private val provider: DatabaseProvider) : NotesRepository {
 
-    override fun getCurrentUser() = provider.getCurrentUser()
+    override suspend fun getCurrentUser() = withContext(Dispatchers.IO) {
+            provider.getCurrentUser()
+        }
 
-    override fun observeNotes(): LiveData<List<Note>> {
+    override fun observeNotes(): Flow<List<Note>> {
         return provider.observeNotes()
     }
 
-    override fun addOrReplace(newNote: Note): LiveData<Result<Note>> {
-        return provider.addOrReplace(newNote)
+    override suspend fun addOrReplace(newNote: Note) = withContext(Dispatchers.IO) {
+        provider.addOrReplace(newNote)
     }
 
-    override fun deleteNote(noteId: String): LiveData<Result<Unit>> = provider.deleteNote(noteId)
+    override suspend fun deleteNote(noteId: String) = withContext(Dispatchers.IO) {
+        provider.deleteNote(noteId)
+    }
 
 }

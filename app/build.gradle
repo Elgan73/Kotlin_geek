@@ -74,6 +74,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
 
 
+    // Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2"
 
     // DI
     def koin_version = '2.2.1'

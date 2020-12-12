@@ -45,6 +45,7 @@ class NotesAdapter(val noteHandler: (Note) -> Unit) :
             noteHandler(currentNote)
         }
 
+
         fun bind(item: Note) {
             currentNote = item
             with(binding) {
@@ -57,6 +58,7 @@ class NotesAdapter(val noteHandler: (Note) -> Unit) :
                 }
 
                 root.setOnClickListener(clickListener)
+
             }
         }
     }

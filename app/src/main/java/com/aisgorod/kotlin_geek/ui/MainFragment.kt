@@ -68,6 +68,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 }
             }
         })
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
