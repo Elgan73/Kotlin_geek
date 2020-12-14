@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aisgorod.kotlin_geek.databinding.ItemNoteBinding
 import com.aisgorod.kotlin_geek.model.Note
-import com.aisgorod.kotlin_geek.model.mapToColor
 
 val DIFF_UTIL: DiffUtil.ItemCallback<Note> = object : DiffUtil.ItemCallback<Note>() {
     override fun areItemsTheSame(oldItem: Note, newItem: Note): Boolean {
@@ -51,10 +50,8 @@ class NotesAdapter(val noteHandler: (Note) -> Unit) :
             with(binding) {
                 title.text = item.title
                 body.text = item.plot
-                if(item.colorInt == 0) {
-                    root.setBackgroundColor(item.colorC.mapToColor(binding.root.context))
-                } else {
-                    root.setBackgroundColor(item.colorInt)
+                if (item.colorInt != 0) {
+                    root.setCardBackgroundColor(item.colorInt)
                 }
 
                 root.setOnClickListener(clickListener)

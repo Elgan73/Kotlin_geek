@@ -45,6 +45,10 @@ class NoteFragment : Fragment() {
         viewModel.note?.let {
             binding.titleEt.setText(it.title)
             binding.bodyEt.setText(it.plot)
+            if (note?.colorInt != 0) {
+                binding.toolbar.setBackgroundColor(note!!.colorInt)
+            }
+
         }
 
         viewModel.showError().observe(viewLifecycleOwner) {
